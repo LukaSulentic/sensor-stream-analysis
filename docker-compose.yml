@@ -66,3 +66,12 @@ services:
       - 8080:8080
     links:
       - kafka
+
+  sensor-generator:
+    build:
+      context: ./data-generator
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BROKER_URL=kafka:29092
