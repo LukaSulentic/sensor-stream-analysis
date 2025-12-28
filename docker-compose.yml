@@ -75,3 +75,12 @@ services:
       - kafka
     environment:
       - KAFKA_BROKER_URL=kafka:29092
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - sensor-generator

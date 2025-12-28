@@ -1,0 +1,19 @@
+<div class="dashboard-container">
+  <h1>Senzorski Podaci (Real-time)</h1>
+  
+  <div class="chart-wrapper">
+    <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="chartData"
+        [animations]="true"
+        [legend]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        xAxisLabel="Vrijeme"
+        yAxisLabel="Temperatura (°C)">
+    </ngx-charts-line-chart>
+  </div>
+</div>
