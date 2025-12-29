@@ -51,4 +51,4 @@ Sustav automatski kreira sljedeće strukture:
 
 ## 📝 Napomena za ocjenjivače
 
-Frontend aplikacija je unaprijed izgrađena (pre-built) i uključena u Docker build proces putem `multi-stage` builda kako bi se osigurala konzistentnost i brzina pokretanja.
+Frontend aplikacija koristi `Multi-stage` Docker build proces. U prvoj fazi se aplikacija automatski gradi (kompajlira) iz izvornog koda, dok se u drugoj fazi generirani artefakti serviraju putem optimiziranog Nginx servera. Ovo osigurava konzistentnost okoline i manju veličinu konačnog image-a.
