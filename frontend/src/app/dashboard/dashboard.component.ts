@@ -3,16 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 import { SensorService, SensorData } from '../services/sensor.service';
 import { Subscription } from 'rxjs';
-
-interface ChartSeries {
-  name: string;
-  value: number;
-}
-
-interface ChartGroup {
-  name: string;
-  series: ChartSeries[];
-}
+import * as shape from 'd3-shape';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,16 +13,18 @@ interface ChartGroup {
   styleUrl: './dashboard.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class DashboardComponent implements OnInit, OnDestroy{
-  chartData: ChartGroup[] = [];
-
-  view: [number, number] = [900, 400];
+export class DashboardComponent implements OnInit, OnDestroy {
+  chartData: any[] = [];
   
+  curve: any = shape.curveMonotoneX; 
+  view: [number, number] = [1000, 400];
+  
+  // Shema boja
   colorScheme: Color = {
-    name: 'custom',
+    name: 'neon',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['#00f260', '#0575E6', '#e100ff', '#ffec00', '#ff5858']
   };
 
   private sensorSub!: Subscription;
@@ -44,34 +37,48 @@ export class DashboardComponent implements OnInit, OnDestroy{
     });
   }
 
+  dateFormatting(val: any): string {
+    if (val instanceof Date) {
+      return val.toLocaleTimeString('hr-HR');
+    }
+    return val;
+  }
+
   updateChart(data: SensorData) {
-    const time = new Date(data.timestamp).toLocaleTimeString();
+    const originalDate = new Date(data.timestamp);
+    
+    const roundedTime = new Date(Math.floor(originalDate.getTime() / 2000) * 2000);
 
     const index = this.chartData.findIndex(s => s.name === data.sensor_id);
 
     if (index !== -1) {
-      const updatedSeries = [...this.chartData[index].series, { name: time, value: data.temperatura }];
+      const series = [...this.chartData[index].series];
       
-      if (updatedSeries.length > 20) updatedSeries.shift();
+      series.push({ 
+        name: roundedTime, 
+        value: data.temperatura 
+      });
 
-      this.chartData[index] = { ...this.chartData[index], series: updatedSeries };
-      this.chartData = [...this.chartData]; 
+      series.sort((a, b) => a.name.getTime() - b.name.getTime());
 
+      if (series.length > 20) series.shift();
+
+      this.chartData[index] = { ...this.chartData[index], series: series };
+      
     } else {
-      this.chartData = [
-        ...this.chartData,
-        {
-          name: data.sensor_id,
-          series: [{ name: time, value: data.temperatura }]
-        }
-      ];
+      this.chartData.push({
+        name: data.sensor_id,
+        series: [{ 
+          name: roundedTime, 
+          value: data.temperatura 
+        }]
+      });
     }
+    
+    this.chartData = [...this.chartData];
   }
 
   ngOnDestroy(): void {
-    if (this.sensorSub) {
-      this.sensorSub.unsubscribe();
-    }
+    if (this.sensorSub) this.sensorSub.unsubscribe();
   }
 }
-
