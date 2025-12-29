@@ -1,0 +1,32 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #1e1e1e;
+  overflow: hidden;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.ngx-charts {
+  text {
+    fill: #d4d4d4 !important;
+  }
+  
+  .gridline-path {
+    stroke: #333 !important;
+    stroke-width: 0.5px;
+  }
+
+  .legend-labels {
+    background: transparent !important;
+  }
+  
+  .legend-label-text {
+    color: #d4d4d4 !important;
+  }
+
+  .legend-title {
+    fill: #d4d4d4 !important; 
+    font-weight: bold; 
+  }
+}
