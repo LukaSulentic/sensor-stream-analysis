@@ -2,7 +2,7 @@
 
 Ovaj projekt implementira sustav za analizu podataka u stvarnom vremenu (Real-time Streaming Analytics). Simulira IoT okolinu gdje senzori šalju podatke o temperaturi i vlažnosti, sustav ih obrađuje te vizualizira na kontrolnoj ploči.
 
-## 🚀 Arhitektura sustava
+## Arhitektura sustava
 
 Projekt se sastoji od mikroservisa orkestriranih putem Docker Compose-a:
 
@@ -20,7 +20,7 @@ Projekt se sastoji od mikroservisa orkestriranih putem Docker Compose-a:
     *   Koristi Nginx za serviranje optimizirane produkcijske verzije aplikacije.
 6.  **AKHQ:** Grafičko sučelje za nadzor Kafka klastera i topica.
 
-## 🛠️ Pokretanje projekta
+## Pokretanje projekta
 
 Sustav je u potpunosti kontejneriziran.
 
@@ -36,19 +36,19 @@ Sustav je u potpunosti kontejneriziran.
     ```
 3.  Pričekajte da se svi servisi podignu (cca 1-2 minute). Skripta za inicijalizaciju baze javit će `✅ Baza podataka je uspješno kreirana!`.
 
-## 🌐 Pristup aplikacijama
+## Pristup aplikacijama
 
 *   **Glavna aplikacija (Dashboard):** [http://localhost:4200](http://localhost:4200)
 *   **Backend API Status:** [http://localhost:8000](http://localhost:8000)
 *   **AKHQ (Kafka GUI):** [http://localhost:8080](http://localhost:8080)
 
-## 📂 Struktura baze podataka (ksqlDB)
+## Struktura baze podataka (ksqlDB)
 
 Sustav automatski kreira sljedeće strukture:
 *   `SENSOR_DATA_STREAM`: Ulazni tok sirovih podataka.
 *   `CURRENT_SENSOR_VALUES`: Tablica stanja (zadnja vrijednost senzora).
 *   `SENSOR_STATS_1MIN`: Agregirani podaci (prosjek, min, max) kroz vremenski prozor.
 
-## 📝 Napomena za ocjenjivače
+## 📝 Napomena
 
 Frontend aplikacija koristi `Multi-stage` Docker build proces. U prvoj fazi se aplikacija automatski gradi (kompajlira) iz izvornog koda, dok se u drugoj fazi generirani artefakti serviraju putem optimiziranog Nginx servera. Ovo osigurava konzistentnost okoline i manju veličinu konačnog image-a.
